@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container-fluid">
+  <div class="row">
+    {% for music_file in my_playlist %}
+    {% if music_file.music_file %}
+      <div class="col-md-3">
+        <div class="card">
+          <img src="https://th.bing.com/th/id/OIP.pY7lSbmL6aaAhocM4qGKNAHaFj?pid=ImgDet&rs=1" class="card-img-top" alt="Default Audio Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ music_file.music_file }}</h5>
+            <audio controls>
+              <source src="{{ music_file.music_file.url }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+            <form method="POST" action="{% url 'delete_music' %}">
+                {% csrf_token %}
+                <input type="hidden" name="musicId" value="{{ music_file.id }}">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+          </div>
+        </div>
+      </div>
+     
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+  
+{% endblock %}

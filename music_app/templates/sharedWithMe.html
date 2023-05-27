@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row">
+    {% for music_file in shared_with_email %}
+    {% if music_file.music_file %}
+      <div class="col-md-3">
+        <div class="card">
+          <img src="https://th.bing.com/th/id/OIP.pY7lSbmL6aaAhocM4qGKNAHaFj?pid=ImgDet&rs=1" class="card-img-top" alt="Default Audio Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ music_file.music_file }}</h5>
+            <p>Shared by: {{ music_file.user.username }}</p> 
+            <audio controls>
+              <source src="{{ music_file.music_file.url }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
