@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MUSICO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav {
+        background-color: #333;
+        padding: 10px;
+      }
+
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li {
+        display: inline;
+        margin-right: 10px;
+        margin-left: 20px;
+       
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul >
+        
+        {% if user.is_authenticated %}
+        <li style="float: left;"><a href="{% url 'home' %}">Home</a></li>
+        <li style="margin-left: 40px;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+          Upload Music
+        </button></li>
+        <li style="margin-left: 40px;" ><a href="{% url 'myPlayList' %}">My Playlist</a></li>
+        <li style="margin-left: 40px;"><a href="{% url 'shared_with_me' %}">shared with me</a></li>
+        <li style="float: right;"><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'register' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+ <!-- Upload Music Modal -->
+ <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabel">Upload Music</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'upload_music' %}" >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="musicFile">Select Music File</label>
+            <input type="file" class="form-control-file" name="musicFile" id="musicFile" required>
+          </div>
+          <div class="form-group">
+            <label for="accessType">Access Type</label>
+            <select class="form-control" id="accessType" name="accessType" required>
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+              <option value="protected">Protected</option>
+            </select>
+          </div>
+          <div class="form-group" id="emailFieldGroup" style="display: none;">
+            <label for="emails">Emails (comma-separated)</label>
+            <input type="text" class="form-control" id="emails" name="emails">
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Upload</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('#accessType').change(function() {
+      if ($(this).val() === 'protected') {
+        $('#emailFieldGroup').show();
+      } else {
+        $('#emailFieldGroup').hide();
+      }
+    });
+
+  });
+  
+</script>
+
+    <div class="container-fluid">
+      {% block content %} 
+      {% endblock %}</div>
+  </body>
+</html>
+̥
