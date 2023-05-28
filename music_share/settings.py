@@ -75,19 +75,19 @@ WSGI_APPLICATION = 'music_share.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'music',
-        'USER':'postgres',
-        'PASSWORD':'root',
-        'HOST':'localhost',
-        'PORT':'5432',
-    }
     
-}
+# DATABASES = {
+#     'default': {
+        
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME':'music',
+#         'USER':'postgres',
+#         'PASSWORD':'root',
+#         'HOST':'localhost',
+#         'PORT':'5432',
+#     }
+    
+# }
 
 
 # Password validation
@@ -127,6 +127,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
 
 
 # Default primary key field type
@@ -134,16 +137,4 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
 
-# Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-
-#  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
